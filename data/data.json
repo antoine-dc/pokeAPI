@@ -12,14 +12,15 @@
           "speed": 45
       },
       "apiTypes": [
+        {
+            "name": "Plante",
+            "image": "https://static.wikia.nocookie.net/pokemongo/images/c/c5/Grass.png"
+        },
           {
               "name": "Poison",
               "image": "https://static.wikia.nocookie.net/pokemongo/images/0/05/Poison.png"
-          },
-          {
-              "name": "Plante",
-              "image": "https://static.wikia.nocookie.net/pokemongo/images/c/c5/Grass.png"
           }
+          
       ],
       "apiGeneration": 1
     },
