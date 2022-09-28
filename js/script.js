@@ -1,9 +1,27 @@
-async function loadData(idGeneration) {
+const selectElem = document.querySelector("select")
+let main = document.querySelector("main")
+
+// When a new <option> is selected
+selectElem.addEventListener("change", () => {
+  const index = selectElem.value
+
+  // On reset le main
+  main.innerHTML = ""
+  loadData(index)
+})
+
+// Init
+loadData()
+addFilterTypes()
+
+async function loadData(idGeneration = 1, type = "all") {
   // On peut utiliser le await sans être dans une fonction async si notre fichier JS est un module
   const reponse = await fetch("https://pokebuildapi.fr/api/v1/pokemon/generation/" + idGeneration)
   const listPokemon = await reponse.json()
 
-  for (const pokemon of listPokemon) {
+  let newListPokemon = type !== "all" ? listPokemon.filter((pokemon) => pokemon.apiTypes[0].name === type) : listPokemon
+
+  for (const pokemon of newListPokemon) {
     let main = document.querySelector("main")
     let article = document.createElement("article")
 
@@ -27,15 +45,60 @@ async function loadData(idGeneration) {
 
     let color
     switch (pokemon.apiTypes[0].name) {
+      case "Eau":
+        color = "blue"
+        break
+
       case "Plante":
         color = "green"
         break
+
+      case "Poison":
+        color = "violet"
+        break
+
+      case "Vol":
+        color = "#738DDB"
+        break
+
       case "Feu":
         color = "orange"
         break
 
-      case "Eau":
-        color = "blue"
+      case "Insecte":
+        color = "#70B901"
+        break
+
+      case "Électrik":
+        color = "yellow"
+        break
+
+      case "Sol":
+        color = "#CD793F"
+        break
+
+      case "Fée":
+        color = "pink"
+        break
+
+      case "Combat":
+        color = "darkred"
+        break
+
+      case "Psy":
+        color = "#FD6960"
+        break
+
+      case "Acier":
+        color = "#246A79"
+        break
+
+      case "Roche":
+        color = "#CBB866"
+        break
+
+      case "Dragon":
+        color = "#1C6ABB"
         break
 
       default:
@@ -50,16 +113,21 @@ async function loadData(idGeneration) {
   }
 }
 
-const selectElem = document.querySelector("select")
+async function addFilterTypes() {
+  let $types = document.querySelector("#types")
 
-// When a new <option> is selected
-selectElem.addEventListener("change", () => {
-  const index = selectElem.value
-  let main = document.querySelector("main")
+  const reponse = await fetch("https://pokebuildapi.fr/api/v1/types")
+  const listTypes = await reponse.json()
 
-  // On reset le main
-  main.innerHTML = ""
-  loadData(index)
-})
+  for (const type of listTypes) {
+    let div = document.createElement("div")
 
-loadData(1)
+    div.addEventListener("click", () => {
+      main.innerHTML = ""
+      loadData(selectElem.value, type.name)
+    })
+
+    div.innerHTML = `<img src="${type.image}" alt="${type.name}"><p>${type.name}</p>`
+    $types.appendChild(div)
+  }
+}

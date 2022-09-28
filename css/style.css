@@ -122,3 +122,26 @@ figure{
   .select:hover::after {
     color: #FA6141;
   }
+
+  /* Filtres types */
+  #types{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 5%;
+    width: 800px;
+  }
+
+  #types > div{
+    width : 80px;
+    text-align: center;
+  }
+  #types > div:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  #types > div img{
+    width: 100%;
+  }
